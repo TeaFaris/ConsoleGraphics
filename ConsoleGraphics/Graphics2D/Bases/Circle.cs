@@ -1,8 +1,11 @@
 ﻿namespace ConsoleGraphics.Graphics2D.Bases
 {
-    public class Circle : Geometrical
+    public class Circle : GeometricalObject
     {
         private double A { get; set; }
+        /// <summary>
+        /// Radius along the X-axis of this circle.
+        /// </summary>
         public double RadiusX
         {
             get => A;
@@ -13,6 +16,9 @@
             }
         }
         private double B { get; set; }
+        /// <summary>
+        /// Radius along the Y-axis of this circle.
+        /// </summary>
         public double RadiusY
         {
             get => B;
@@ -22,12 +28,23 @@
                 Console.Clear();
             }
         }
+        /// <summary>
+        /// Creates an instance of a <see cref="Circle"/>.
+        /// </summary>
+        /// <param name="X">The <see cref="GeometricalObject.X">X0-Coordinate</see> that this <see cref="Circle"/> will have.</param>
+        /// <param name="Y">The <see cref="GeometricalObject.Y">Y0-Coordinate</see> that this <see cref="Circle"/> will have.</param>
+        /// <param name="Parent">The <see cref="Plane2D"/> where the figure will be drawn.</param>
+        /// <param name="Color">The <see cref="ConsoleColor"/> with which the <see cref="Circle"/> will be drawn.</param>
+        /// <param name="RadiusX">Radius along the <see cref="RadiusX">X</see> axis that this <see cref="Circle"/> will have.</param>
+        /// <param name="RadiusY">Radius along the <see cref="RadiusY">Y</see> axis that this <see cref="Circle"/> will have.</param>
+        /// <returns>A new instance of the <see cref="Point"/> class.</returns>
         public Circle(double X, double Y, double RadiusX, double RadiusY, Plane2D Parent, ConsoleColor Color) : base(Parent, Color)
         {
             this.X = X;
             this.Y = Y;
             this.RadiusX = RadiusX;
             this.RadiusY = RadiusY;
+            Parent.Add(this);
         }
         public override void Draw()
         {
@@ -76,7 +93,7 @@
                 }
             }
         }
-        public override bool Equals(Geometrical? other) => (other is null || other is not Circle) ? false : (other as Circle).RadiusX == RadiusX && (other as Circle).RadiusY == RadiusY;
+        public override bool Equals(GeometricalObject? other) => (other is null || other is not Circle) ? false : (other as Circle).RadiusX == RadiusX && (other as Circle).RadiusY == RadiusY;
         public override void SetX(double X)
         {
             this.X = X;

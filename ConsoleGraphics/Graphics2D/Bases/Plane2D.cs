@@ -6,7 +6,7 @@ namespace ConsoleGraphics.Graphics2D.Bases
     {
         public ObservableCollection<Point> Map1D { get; set; } = new ObservableCollection<Point>();
         public List<List<Point>> Map2D { get; set; } = new List<List<Point>>();
-        public List<Geometrical> Geometricals { get; set; } = new List<Geometrical>();
+        public List<GeometricalObject> Geometricals { get; set; } = new List<GeometricalObject>();
         public CancellationTokenSource CTS { get; set; }
         public GraphicsType Type { get; protected set; }
         public Plane2D(GraphicsType Type)
@@ -21,7 +21,7 @@ namespace ConsoleGraphics.Graphics2D.Bases
             for (int i = 0; (Console.WindowWidth * Console.WindowHeight) > i; i++)
                 Map1D.Add(new Point(Map1D.Count, this, ConsoleColor.White, i.ToString(), ' '));
             while (!CT.IsCancellationRequested)
-                foreach (Geometrical G in Geometricals)
+                foreach (GeometricalObject G in Geometricals)
                     G.Draw();
         }
         public void SetPoint(Point Point)
@@ -59,7 +59,7 @@ namespace ConsoleGraphics.Graphics2D.Bases
             // TODO: Из 1д карты в 2д карту
         }
 
-        public void Add(Geometrical Geo) => Geometricals.Add(Geo);
+        public void Add(GeometricalObject Geo) => Geometricals.Add(Geo);
 
         public void Dispose()
         {
