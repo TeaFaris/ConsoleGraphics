@@ -35,6 +35,7 @@ namespace ConsoleGraphics.Graphics2D.Bases
             }
             catch
             {
+                Map1D.Clear();
                 for (int i = 0; (Console.WindowWidth * Console.WindowHeight) > i; i++)
                     Map1D.Add(new Point(Map1D.Count, this, ConsoleColor.White, i.ToString(), ' '));
             }

@@ -44,7 +44,6 @@
             this.Y = Y;
             this.RadiusX = RadiusX;
             this.RadiusY = RadiusY;
-            Parent.Add(this);
         }
         public override void Draw()
         {

@@ -39,7 +39,6 @@
             Y = Point1.Y;
             this.VerticalChar = VerticalChar;
             this.HorizontalChar = HorizontalChar;
-            Parent.Add(this);
         }
         public override void Draw()
         {

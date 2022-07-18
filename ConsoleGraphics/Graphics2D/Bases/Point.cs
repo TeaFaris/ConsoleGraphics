@@ -115,7 +115,6 @@
             this.Y = Y;
             this.Color = Color;
             this.DrawChar = DrawChar;
-            Parent.Add(this);
         }
         /// <summary>
         /// Creates an instance of a <see cref="Point"/> for the subsequent construction of complex geometric shapes.

@@ -42,7 +42,6 @@ namespace ConsoleGraphics.Graphics2D.Bases
             this.HorizontalChar = HorizontalChar;
             this.Name = string.Concat(Points.Select(x => x.Name));
             RecalculateLines();
-            Parent.Add(this);
         }
         private void RecalculateLines()
         {
