@@ -1,11 +1,8 @@
-﻿using System.Collections.ObjectModel;
-
-namespace ConsoleGraphics.Graphics2D.Bases
+﻿namespace ConsoleGraphics.Graphics2D.Bases
 {
     public class Plane2D : IDisposable
     {
-        public ObservableCollection<Point> Map1D { get; set; } = new ObservableCollection<Point>();
-        public List<List<Point>> Map2D { get; set; } = new List<List<Point>>();
+        protected List<Point> Map1D { get; set; } = new List<Point>();
         public List<GeometricalObject> Geometricals { get; set; } = new List<GeometricalObject>();
         public CancellationTokenSource CTS { get; set; }
         public GraphicsType Type { get; protected set; }
@@ -26,7 +23,6 @@ namespace ConsoleGraphics.Graphics2D.Bases
         }
         public void SetPoint(Point Point)
         {
-            Map1D.CollectionChanged += Map1D_CollectionChanged;
             Map1D[Point.PixelInCosole] = Point;
             Console.CursorVisible = false;
             try
@@ -54,13 +50,11 @@ namespace ConsoleGraphics.Graphics2D.Bases
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
         }
-
-        private void Map1D_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        public void Add(GeometricalObject Geo)
         {
-            // TODO: Из 1д карты в 2д карту
+            if (Geo == null) return;
+            Geometricals.Add(Geo);
         }
-
-        public void Add(GeometricalObject Geo) => Geometricals.Add(Geo);
 
         public void Dispose()
         {

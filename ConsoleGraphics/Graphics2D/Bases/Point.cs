@@ -125,7 +125,7 @@
         /// <param name="Name"><see cref="string"/> name of the point, can be anything, just for convenience. Used in the <see cref="ToString"/> method of <see cref="GeometricalObject"/></param>
         /// <param name="DrawChar">The <see cref="char"/> that the <see cref="Point"/> will be <see cref="Draw">drawn</see> with.</param>
         /// <returns>A new instance of the <see cref="Point"/> class.</returns>
-        public Point(int PositionInMap, Plane2D Parent, ConsoleColor Color, string Name, char DrawChar = '*') : this(PositionInMap / Console.WindowWidth - PositionInMap, PositionInMap % Console.WindowWidth, Parent, Color, Name, DrawChar) { }
+        public Point(int PositionInMap, Plane2D Parent, ConsoleColor Color, string Name, char DrawChar = '*') : this(PositionInMap / Console.WindowWidth, PositionInMap % Console.WindowWidth, Parent, Color, Name, DrawChar) { }
         public override void Draw() => Parent.SetPoint(this);
         public override bool Equals(GeometricalObject? other) => (other is null || other is not Point) ? false : other.X == this.X && other.Y == this.Y;
         public override void SetX(double X)
