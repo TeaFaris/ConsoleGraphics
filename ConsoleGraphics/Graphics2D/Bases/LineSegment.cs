@@ -142,7 +142,7 @@
         public static Shape? operator +(LineSegment? left, LineSegment? right)
         {
             if(left == null || right == null) return null;
-            return new Shape(new[] { left.Point1, left.Point2, right.Point2, right.Point1 }, left.Parent, left.Color);
+            return new Shape(new[] { left.Point1, left.Point2, right.Point1, right.Point2 }, left.Parent, left.Color);
         }
         public override string ToString() => $"Line {Name}({X}, {Y}): {Point1.Name}({Point1.X}, {Point1.Y}) -> {Point2.Name}({Point2.X}, {Point2.Y})";
     }
