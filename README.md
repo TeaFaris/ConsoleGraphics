@@ -4,7 +4,7 @@ The library was created for fun, but then it turned into a small project for ren
 
 ## NuGet install:
 ```
-Install-Package ConsoleGraphics -Version 0.1.1
+Install-Package ConsoleGraphics -Version 0.1.3
 ```
 
 ## Usage:
