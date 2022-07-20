@@ -1,6 +1,10 @@
 ﻿namespace ConsoleGraphics.Graphics2D.Bases
 {
-    public class LineSegment : GeometricalObject
+    /// <summary>
+    /// A <see cref="LineSegment"/> represents 2 <see cref="Point"/>s in the <see cref="Scene2D"/> connected to each other.
+    /// </summary>
+    /// /// <remarks>Beginning? Check out a short <seealso href="https://github.com/TeaFaris/ConsoleGraphics#usage">guide</seealso> on how to get started using the library.</remarks>
+    public class LineSegment : GeometricObject
     {
         /// <summary>
         /// First line <see cref="Point"/>.
@@ -106,7 +110,7 @@
                 }
             }
         }
-        public override bool Equals(GeometricalObject? other) => (other is null || other is not LineSegment) ? false : (this.Point1 == ((LineSegment)other).Point1 && this.Point2 == ((LineSegment)other).Point2) || (this.Point2 == ((LineSegment)other).Point1 && this.Point1 == ((LineSegment)other).Point2);
+        public override bool Equals(GeometricObject? other) => (other is null || other is not LineSegment) ? false : (this.Point1 == ((LineSegment)other).Point1 && this.Point2 == ((LineSegment)other).Point2) || (this.Point2 == ((LineSegment)other).Point1 && this.Point1 == ((LineSegment)other).Point2);
         public override void SetX(double X)
         { 
             base.SetX(X);
@@ -129,7 +133,7 @@
         /// </summary>
         /// <param name="left"><see cref="LineSegment"/> on the plane</param>
         /// <param name="right"><see cref="Point"/> on the plane</param>
-        /// <returns>Returns a new <see cref="Shape"/> instance from a <see cref="Point"/> and a <see cref="LineSegment"/>. And returns <see cref="null"/> if <paramref name="left"/> or <paramref name="right"/> <see cref="Equals(GeometricalObject?)">equals</see> <see cref="null"/></returns>
+        /// <returns>Returns a new <see cref="Shape"/> instance from a <see cref="Point"/> and a <see cref="LineSegment"/>. And returns <see cref="null"/> if <paramref name="left"/> or <paramref name="right"/> <see cref="Equals(GeometricObject?)">equals</see> <see cref="null"/></returns>
         public static Shape? operator +(LineSegment? left, Point? right)
         {
             if (left == null || right == null) return null;
@@ -140,7 +144,7 @@
         /// </summary>
         /// <param name="left">First <see cref="LineSegment"/> on the plane</param>
         /// <param name="right">Second <see cref="LineSegment"/> on the plane</param>
-        /// <returns>Returns a new <see cref="Shape"/> instance from a <see cref="LineSegment"/>s. And returns <see cref="null"/> if <paramref name="left"/> or <paramref name="right"/> <see cref="Equals(GeometricalObject?)">equals</see> <see cref="null"/></returns>
+        /// <returns>Returns a new <see cref="Shape"/> instance from a <see cref="LineSegment"/>s. And returns <see cref="null"/> if <paramref name="left"/> or <paramref name="right"/> <see cref="Equals(GeometricObject?)">equals</see> <see cref="null"/></returns>
         public static Shape? operator +(LineSegment? left, LineSegment? right)
         {
             if(left == null || right == null) return null;

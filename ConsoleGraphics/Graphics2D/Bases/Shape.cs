@@ -2,7 +2,11 @@
 
 namespace ConsoleGraphics.Graphics2D.Bases
 {
-    public class Shape : GeometricalObject
+    /// <summary>
+    /// <see cref="Shape"/>(in the form of an arbitrary shape) is 3 or more <see cref="Point"/>s connected to each other by <see cref="LineSegment"/> in the <see cref="Scene2D"/>, which can create any shape.
+    /// </summary>
+    /// /// <remarks>Beginning? Check out a short <seealso href="https://github.com/TeaFaris/ConsoleGraphics#usage">guide</seealso> on how to get started using the library.</remarks>
+    public class Shape : GeometricObject
     {
         /// <summary>
         /// <see cref="char"/> to <see cref="Draw">draw</see> vertical lines.
@@ -58,8 +62,8 @@ namespace ConsoleGraphics.Graphics2D.Bases
         /// <summary>
         /// Creates a simple rectangle.
         /// </summary>
-        /// <param name="UpperLeftPointX">The <see cref="GeometricalObject.X">X-Coordinate</see> that upper-left <see cref="Point"/> will have.</param>
-        /// <param name="UpperLeftPointY">The <see cref="GeometricalObject.Y">Y-Coordinate</see> that upper-left <see cref="Point"/> will have.</param>
+        /// <param name="UpperLeftPointX">The <see cref="GeometricObject.X">X-Coordinate</see> that upper-left <see cref="Point"/> will have.</param>
+        /// <param name="UpperLeftPointY">The <see cref="GeometricObject.Y">Y-Coordinate</see> that upper-left <see cref="Point"/> will have.</param>
         /// <param name="Width">The width that the rectangle will have.</param>
         /// <param name="Height">The height that the rectangle will have.</param>
         /// <param name="Parent">The <see cref="Scene2D"/> where the <see cref="Shape"/> will be drawn.</param>
@@ -83,7 +87,7 @@ namespace ConsoleGraphics.Graphics2D.Bases
             Points.ToList().ForEach(x => x.Draw(DrawMethod));
             Lines.ToList().ForEach(x => x.Draw(DrawMethod));
         }
-        public override bool Equals(GeometricalObject? other) => (other is null || other is not Shape) ? false : Points.SequenceEqual(((Shape)other).Points);
+        public override bool Equals(GeometricObject? other) => (other is null || other is not Shape) ? false : Points.SequenceEqual(((Shape)other).Points);
         public override void SetX(double X)
         {
             base.SetX(X);
@@ -121,7 +125,7 @@ namespace ConsoleGraphics.Graphics2D.Bases
         /// </summary>
         /// <param name="left"><see cref="Shape"/> on the plane</param>
         /// <param name="right"><see cref="LineSegment"/> on the plane</param>
-        /// <returns>Returns a new <see cref="Shape"/> instance from a <see cref="Shape"/> and a <see cref="LineSegment"/>. And returns <see cref="null"/> if <paramref name="left"/> <see cref="Equals(GeometricalObject?)">equals</see> <see cref="null"/></returns>
+        /// <returns>Returns a new <see cref="Shape"/> instance from a <see cref="Shape"/> and a <see cref="LineSegment"/>. And returns <see cref="null"/> if <paramref name="left"/> <see cref="Equals(GeometricObject?)">equals</see> <see cref="null"/></returns>
         public static Shape? operator +(Shape? left, LineSegment? right)
         {
             if (left == null)

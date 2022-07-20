@@ -1,21 +1,41 @@
 ﻿namespace ConsoleGraphics.Graphics2D.Bases
 {
+    /// <summary>
+    /// Scene2D is a 2D representation of the surface on which your objects are located and controlled.
+    /// </summary>
+    /// /// <remarks>Beginning? Check out a short <seealso href="https://github.com/TeaFaris/ConsoleGraphics#usage">guide</seealso> on how to get started using the library.</remarks>
     public class Scene2D : IDisposable
     {
+        /// <summary>
+        /// 1D Map projection of the console.
+        /// </summary>
         protected List<Point> Map1D { get; set; } = new List<Point>();
-        public List<GeometricalObject> Geometricals { get; set; } = new List<GeometricalObject>();
-        public CancellationTokenSource CTS { get; set; }
+        /// <summary>
+        /// Geometric objects that are on the scene.
+        /// </summary>
+        public List<GeometricObject> GeometricObjects { get; protected set; } = new List<GeometricObject>();
+        /// <summary>
+        /// GraphicsType is the type of graphics that will be used to draw the points.
+        /// </summary>
         public GraphicsType Type { get; protected set; }
+        /// <summary>
+        /// Console cursor.
+        /// </summary>
+        /// <returns>Whether the console cursor is visible to the user.</returns>
         public bool CursorVisible
         {
             get => Console.CursorVisible;
             set => Console.CursorVisible = value;
         }
+        /// <summary>
+        /// Creates an instance of the scene class in 2D projection.
+        /// </summary>
+        /// <remarks>Beginning? Check out a short <seealso href="https://github.com/TeaFaris/ConsoleGraphics#usage">guide</seealso> on how to get started using the library.</remarks>
+        /// <param name="Type">GraphicsType is the type of graphics that will be used to draw the dots. There are 2 types: <seealso href="https://github.com/TeaFaris/ConsoleGraphics#start">See</seealso></param>
         public Scene2D(GraphicsType Type)
         {
             this.Type = Type;
             CursorVisible = false;
-            CTS = new CancellationTokenSource();
             Init();
         }
         public void Init()
@@ -60,16 +80,15 @@
             Console.SetCursorPosition((int)Empty.X, (int)Empty.Y);
             Console.Write(Empty.DrawChar);
         }
-        public void Add(GeometricalObject Geo)
+        public void Add(GeometricObject Geo)
         {
             if (Geo == null) return;
             Geo.Parent = this;
-            Geometricals.Add(Geo);
+            GeometricObjects.Add(Geo);
             Geo.Draw(SetPoint);
         }
         public void Dispose()
         {
-            CTS.Cancel();
             Console.Clear();
             Map1D.Clear();
         }

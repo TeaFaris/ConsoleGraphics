@@ -1,6 +1,6 @@
 ﻿namespace ConsoleGraphics.Graphics2D.Bases
 {
-    public class Circle : GeometricalObject
+    public class Circle : GeometricObject
     {
         /// <summary>
         /// Radius along the X-axis of this circle.
@@ -13,8 +13,8 @@
         /// <summary>
         /// Creates an instance of a <see cref="Circle"/>.
         /// </summary>
-        /// <param name="X">The <see cref="GeometricalObject.X">X0-Coordinate</see> that this <see cref="Circle"/> will have.</param>
-        /// <param name="Y">The <see cref="GeometricalObject.Y">Y0-Coordinate</see> that this <see cref="Circle"/> will have.</param>
+        /// <param name="X">The <see cref="GeometricObject.X">X0-Coordinate</see> that this <see cref="Circle"/> will have.</param>
+        /// <param name="Y">The <see cref="GeometricObject.Y">Y0-Coordinate</see> that this <see cref="Circle"/> will have.</param>
         /// <param name="Parent">The <see cref="Scene2D"/> where the figure will be drawn.</param>
         /// <param name="Color">The <see cref="ConsoleColor"/> with which the <see cref="Circle"/> will be drawn.</param>
         /// <param name="RadiusX">Radius along the <see cref="RadiusX">X</see> axis that this <see cref="Circle"/> will have.</param>
@@ -75,7 +75,7 @@
                 }
             }
         }
-        public override bool Equals(GeometricalObject? other) => (other is null || other is not Circle) ? false : (other as Circle).RadiusX == RadiusX && (other as Circle).RadiusY == RadiusY;
+        public override bool Equals(GeometricObject? other) => (other is null || other is not Circle) ? false : (other as Circle).RadiusX == RadiusX && (other as Circle).RadiusY == RadiusY;
         public override void SetX(double X)
         {
             base.SetX(X);
