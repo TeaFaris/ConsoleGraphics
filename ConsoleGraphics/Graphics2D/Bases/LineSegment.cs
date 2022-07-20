@@ -25,12 +25,12 @@
         /// </summary>
         /// <param name="Point1">First line <see cref="Point"/>.</param>
         /// <param name="Point2">Second line <see cref="Point"/>.</param>
-        /// <param name="Parent">The <see cref="Plane2D"/> where the <see cref="LineSegment"/> will be drawn.</param>
+        /// <param name="Parent">The <see cref="Scene2D"/> where the <see cref="LineSegment"/> will be drawn.</param>
         /// <param name="Color">The <see cref="ConsoleColor"/> with which the figure will be drawn.</param>
         /// <param name="VerticalChar">The vertical <see cref="char"/> that the <see cref="LineSegment"/> will be <see cref="Draw">drawn</see> with.</param>
         /// <param name="HorizontalChar">The horizontal <see cref="char"/> that the <see cref="LineSegment"/> will be <see cref="Draw">drawn</see> with.</param>
         /// <returns>A new instance of the <see cref="Point"/> class.</returns>
-        public LineSegment(Point Point1, Point Point2, Plane2D Parent, ConsoleColor Color, char VerticalChar = '|', char HorizontalChar = '=') : base(Parent, Color)
+        public LineSegment(Point Point1, Point Point2, ConsoleColor Color, char VerticalChar = '|', char HorizontalChar = '=') : base(Color, 0, 0)
         {
             this.Point1 = Point1;
             this.Point2 = Point2;
@@ -40,10 +40,13 @@
             this.VerticalChar = VerticalChar;
             this.HorizontalChar = HorizontalChar;
         }
-        public override void Draw()
+        public override void Draw(Action<Point> DrawMethod)
         {
-            Point1.Draw();
-            Point2.Draw();
+            if (Parent == null) throw new Exception("NoParentException: I don't know where to draw, add me to some Scene or use GeometricalObject.AddParent(Scene2D);.");
+            Point1.Parent = Parent;
+            Point2.Parent = Parent;
+            Point1.Draw(DrawMethod);
+            Point2.Draw(DrawMethod);
 
             if (Point2.X < Point1.X)
                 (Point1, Point2) = (Point2, Point1);
@@ -77,7 +80,7 @@
                     }
                     else
                         D += D1;
-                    Parent.SetPoint(new Point(X, Y, Parent, Color, $"{this}(Connector)", HorizontalChar));
+                    DrawMethod(new Point(X, Y, Color, $"{this}(Connector)", HorizontalChar));
                     X++;
                 }
             }
@@ -97,7 +100,7 @@
                     }
                     else
                         D += D1;
-                    Parent.SetPoint(new Point(X, Y, Parent, Color, $"{this}(Connector)", VerticalChar));
+                    DrawMethod(new Point(X, Y, Color, $"{this}(Connector)", VerticalChar));
                     if (Y2 < Y1)
                         Y--;
                     else
@@ -108,20 +111,29 @@
         public override bool Equals(GeometricalObject? other) => (other is null || other is not LineSegment) ? false : (this.Point1 == ((LineSegment)other).Point1 && this.Point2 == ((LineSegment)other).Point2) || (this.Point2 == ((LineSegment)other).Point1 && this.Point1 == ((LineSegment)other).Point2);
         public override void SetX(double X)
         {
-            this.X = X;
-            Point1.SetX(Point1.X + this.X);
-            Point2.SetX(Point2.X + this.X);
-            Console.Clear();
+            if (Parent != null)
+            {
+                Parent.PauseDraw = true;
+                Draw(Parent.DeletePoint);
+                Parent.PauseDraw = false;
+            }            
+            Point1.SetX(X);
+            Point2.SetX(X);
+            base.SetX(X);
         }
         public override void SetY(double Y)
         {
-            this.Y = Y;
-            double Offset = Math.Abs(Point1.Y - Point2.Y);
-            Point1.SetY(this.Y);
-            Point2.SetY(this.Y + Offset);
-            Console.Clear();
+            if (Parent != null)
+            {
+                Parent.PauseDraw = true;
+                Draw(Parent.DeletePoint);
+                Parent.PauseDraw = false;
+            }
+            Point1.SetY(Y);
+            Point2.SetY(Y);
+            base.SetY(Y);
         }
-        public override object Clone() => new LineSegment(Point1.Clone() as Point, Point2.Clone() as Point, Parent, Color, VerticalChar, HorizontalChar);
+        public override object Clone() => new LineSegment(Point1.Clone() as Point, Point2.Clone() as Point, Color, VerticalChar, HorizontalChar);
         /// <summary>
         /// Creates a <see cref="Shape"/> from a <see cref="Point"/> and a <see cref="LineSegment"/>.
         /// </summary>
@@ -131,7 +143,7 @@
         public static Shape? operator +(LineSegment? left, Point? right)
         {
             if (left == null || right == null) return null;
-            return new Shape(new[] { left.Point1, left.Point2, right }, left.Parent, left.Color);
+            return new Shape(new[] { left.Point1, left.Point2, right }, left.Color);
         }
         /// <summary>
         /// Creates a <see cref="Shape"/> from a <see cref="LineSegment"/>s.
@@ -142,7 +154,7 @@
         public static Shape? operator +(LineSegment? left, LineSegment? right)
         {
             if(left == null || right == null) return null;
-            return new Shape(new[] { left.Point1, left.Point2, right.Point1, right.Point2 }, left.Parent, left.Color);
+            return new Shape((right.Point1.X > right.Point2.X) ? new[] { left.Point1, left.Point2, right.Point1, right.Point2 } : new[] { left.Point1, left.Point2, right.Point2, right.Point1 }, left.Color);
         }
         public override string ToString() => $"Line {Name}({X}, {Y}): {Point1.Name}({Point1.X}, {Point1.Y}) -> {Point2.Name}({Point2.X}, {Point2.Y})";
     }
