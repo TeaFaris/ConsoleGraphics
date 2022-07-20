@@ -86,16 +86,20 @@ namespace ConsoleGraphics.Graphics2D.Bases
         public override bool Equals(GeometricalObject? other) => (other is null || other is not Shape) ? false : Points.SequenceEqual(((Shape)other).Points);
         public override void SetX(double X)
         {
+            base.SetX(X);
             foreach (LineSegment Line in Lines)
                 Line.SetX(X);
-            base.SetX(X);
+            if (Parent != null)
+                Draw(Parent.SetPoint);
             RecalculatePoints();
         }
         public override void SetY(double Y)
         {
+            base.SetY(Y);
             foreach (LineSegment Line in Lines)
                 Line.SetY(Y);
-            base.SetY(Y);
+            if (Parent != null)
+                Draw(Parent.SetPoint);
             RecalculatePoints();
         }
         /// <summary>

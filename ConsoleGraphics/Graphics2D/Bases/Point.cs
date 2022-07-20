@@ -52,7 +52,6 @@
             if (left is null || right is null) return false;
             return left.Equals(right);
         }
-        public void AddParent(Scene2D Parent) => this.Parent = Parent;
         /// <summary>
         /// Compares 2 <see cref="GeometricalObject"/>s for inequality.
         /// </summary>
@@ -84,13 +83,23 @@
         /// </summary>
         /// <remarks>See also <seealso cref="SetY(double)"/></remarks>
         /// <param name="X">X coordinate to be set.</param>
-        public virtual void SetX(double X) => this.X = ActualX + X;
+        public virtual void SetX(double X)
+        {
+            if (Parent != null)
+                Draw(Parent.DeletePoint);
+            this.X = ActualX + X;
+        }
         /// <summary>
         /// Sets the passed <see cref="Y">Y</see> coordinate to the <see cref="GeometricalObject"/>.
         /// </summary>
         /// <remarks>See also <seealso cref="SetX(double)"/></remarks>
         /// <param name="Y">Y coordinate to be set.</param>
-        public virtual void SetY(double Y) => this.Y = ActualY + Y;
+        public virtual void SetY(double Y)
+        {
+            if (Parent != null)
+                Draw(Parent.DeletePoint);
+            this.Y = ActualY + Y;
+        }
     }
     public class Point : GeometricalObject
     {
@@ -136,18 +145,6 @@
             DrawMethod(this);
         }
         public override bool Equals(GeometricalObject? other) => (other is null || other is not Point) ? false : other.X == this.X && other.Y == this.Y;
-        public override void SetX(double X)
-        {
-            if (Parent != null)
-                Parent.DeletePoint(this);
-            base.SetX(X);
-        }
-        public override void SetY(double Y)
-        {
-            if (Parent != null)
-                Parent.DeletePoint(this);
-            base.SetY(Y);
-        }
         /// <summary>
         /// Creates a <see cref="LineSegment"/> from 2 <see cref="Point"/>s on the plane.
         /// </summary>
@@ -158,6 +155,18 @@
         {
             if (left == null || right == null) return null;
             return new LineSegment(left, right, left.Color);
+        }
+        public override void SetX(double X)
+        {
+            base.SetX(X);
+            if (Parent != null)
+                Draw(Parent.SetPoint);
+        }
+        public override void SetY(double Y)
+        {
+            base.SetY(Y);
+            if (Parent != null)
+                Draw(Parent.SetPoint);
         }
         public static Point GetEmptyPoint() => new Point(0, 0, ConsoleColor.Black, "Empty", ' ');
         public static Point GetEmptyPoint(double X, double Y) => new Point(X, Y, ConsoleColor.Black, "Empty", ' ');

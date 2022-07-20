@@ -78,13 +78,15 @@
         public override bool Equals(GeometricalObject? other) => (other is null || other is not Circle) ? false : (other as Circle).RadiusX == RadiusX && (other as Circle).RadiusY == RadiusY;
         public override void SetX(double X)
         {
-            this.X = X;
-            Console.Clear();
+            base.SetX(X);
+            if (Parent != null)
+                Draw(Parent.SetPoint);
         }
         public override void SetY(double Y)
         {
-            this.Y = Y;
-            Console.Clear();
+            base.SetY(Y);
+            if (Parent != null)
+                Draw(Parent.SetPoint);
         }
     }
 }

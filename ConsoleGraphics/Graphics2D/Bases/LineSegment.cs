@@ -45,8 +45,6 @@
             if (Parent == null) throw new Exception("NoParentException: I don't know where to draw, add me to some Scene or use GeometricalObject.AddParent(Scene2D);.");
             Point1.Parent = Parent;
             Point2.Parent = Parent;
-            Point1.Draw(DrawMethod);
-            Point2.Draw(DrawMethod);
 
             if (Point2.X < Point1.X)
                 (Point1, Point2) = (Point2, Point1);
@@ -110,28 +108,20 @@
         }
         public override bool Equals(GeometricalObject? other) => (other is null || other is not LineSegment) ? false : (this.Point1 == ((LineSegment)other).Point1 && this.Point2 == ((LineSegment)other).Point2) || (this.Point2 == ((LineSegment)other).Point1 && this.Point1 == ((LineSegment)other).Point2);
         public override void SetX(double X)
-        {
-            if (Parent != null)
-            {
-                Parent.PauseDraw = true;
-                Draw(Parent.DeletePoint);
-                Parent.PauseDraw = false;
-            }            
+        { 
+            base.SetX(X);
             Point1.SetX(X);
             Point2.SetX(X);
-            base.SetX(X);
+            if (Parent != null)
+                Draw(Parent.SetPoint);
         }
         public override void SetY(double Y)
         {
-            if (Parent != null)
-            {
-                Parent.PauseDraw = true;
-                Draw(Parent.DeletePoint);
-                Parent.PauseDraw = false;
-            }
+            base.SetY(Y);
             Point1.SetY(Y);
             Point2.SetY(Y);
-            base.SetY(Y);
+            if (Parent != null)
+                Draw(Parent.SetPoint);
         }
         public override object Clone() => new LineSegment(Point1.Clone() as Point, Point2.Clone() as Point, Color, VerticalChar, HorizontalChar);
         /// <summary>

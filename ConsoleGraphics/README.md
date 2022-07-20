@@ -4,7 +4,7 @@ The library was created for fun, but then it turned into a small project for ren
 
 ## NuGet install:
 ```
-Install-Package ConsoleGraphics -Version 0.1.1
+Install-Package ConsoleGraphics -Version 0.1.4
 ```
 
 ## Usage:
@@ -12,9 +12,9 @@ Install-Package ConsoleGraphics -Version 0.1.1
 ```C#
 using ConsoleGraphics.Graphics2D.Bases;
 ```
-First of all, let's create a plane for drawing.
+First of all, let's create a scene for drawing.
 ```C#
-Plane2D Plane = new Plane2D(GraphicsType.ColoredPoints);
+Scene2D Scene = new Scene2D(GraphicsType.ColoredPoints);
 ```
 Here, in the constructor, there is a GraphicsType value.
 GraphicsType is the type of graphics that will be used to draw the dots.
@@ -36,13 +36,11 @@ GraphicsType.ColoredPoints:
 ### First Object:
 Okay, once we've chosen a graphic type and we've already created a plane instance, we can create our first object: Point.
 ```C#
-Point A = new Point(X, Y, Parent, Color, Name, DrawChar);
+Point A = new Point(X, Y, Color, Name, DrawChar);
 ```
 Where X is the X-Coordinate that this point will have.
 
 and Y is the Y-Coordinate that this point will have.
-
-Parent is the Plane2D where the figure will be drawn.
 
 Color is the ConsoleColor with which the Point will be drawn.
 
@@ -52,11 +50,11 @@ DrawChar is the char that the Point will be Draw drawn with.
 
 Okey, now we can do this.
 ```C#
-Point A = new Point(0, 0, Plane, ConsoleColor.Magenta, "A", 'O');
+Point A = new Point(0, 0, ConsoleColor.Magenta, "A", 'O');
 ```
-But if we run the program, then we will not see the point in the console, all because we need to add this point to Plane2D.
+But if we run the program, then we will not see the point in the console, all because we need to add this point to Scene2D.
 ```C#
-Plane.Add(A);
+Scene.Add(A);
 ```
 And, tadam, we now have a point drawn in the console!
 
@@ -70,11 +68,11 @@ The answer lies here:
 
 By adding 2 points between each other, we can get a line segment.
 ```C#
-Plane2D Plane = new Plane2D(GraphicsType.ColoredPoints);
-Point A = new Point(10, 5, Plane, ConsoleColor.Magenta, "A", '*');
-Point B = new Point(15, 8, Plane, ConsoleColor.Magenta, "B", '*');
+Scene2D Scene = new Scene2D(GraphicsType.ColoredPoints);
+Point A = new Point(10, 5, ConsoleColor.Magenta, "A", '*');
+Point B = new Point(15, 8, ConsoleColor.Magenta, "B", '*');
 LineSegment AB = A + B;
-Plane.Add(AB);
+Scene.Add(AB);
 ```
 Result:
 
@@ -84,13 +82,13 @@ We can also create a line segment using the constructor.
 
 By adding a point to a line segment, you can already get a shape.
 ```
-Plane2D Plane = new Plane2D(GraphicsType.ColoredPoints);
-Point A = new Point(10, 5, Plane, ConsoleColor.Magenta, "A");
-Point B = new Point(30, 15, Plane, ConsoleColor.Magenta, "B");
-Point C = new Point(10, 15, Plane, ConsoleColor.Magenta, "C");
+Scene2D Scene = new Scene2D(GraphicsType.ColoredPoints);
+Point A = new Point(10, 5, ConsoleColor.Magenta, "A");
+Point B = new Point(30, 15, ConsoleColor.Magenta, "B");
+Point C = new Point(10, 15, ConsoleColor.Magenta, "C");
 LineSegment AB = A + B;
 Shape ABC = AB + C;
-Plane.Add(ABC);
+Scene.Add(ABC);
 ```
 Result:
 
@@ -98,15 +96,15 @@ Result:
 
 You can also create new shapes by adding a line segment to a line segment.
 ```C#
-Plane2D Plane = new Plane2D(GraphicsType.ColoredPoints);
-Point A = new Point(10, 5, Plane, ConsoleColor.Magenta, "A");
-Point B = new Point(30, 5, Plane, ConsoleColor.Magenta, "B");
-Point C = new Point(30, 15, Plane, ConsoleColor.Magenta, "C");
-Point D = new Point(10, 15, Plane, ConsoleColor.Magenta, "D");
+Scene2D Scene = new Scene2D(GraphicsType.ColoredPoints);
+Point A = new Point(10, 5, ConsoleColor.Magenta, "A");
+Point B = new Point(30, 5, ConsoleColor.Magenta, "B");
+Point C = new Point(30, 15, ConsoleColor.Magenta, "C");
+Point D = new Point(10, 15, ConsoleColor.Magenta, "D");
 LineSegment AB = A + B;
 LineSegment CD = C + D;
 Shape ABCD = AB + CD;
-Plane.Add(ABCD);
+Scene.Add(ABCD);
 ```
 
 Result:
@@ -118,15 +116,48 @@ The figure can also be created through the constructor, as it is more convenient
 
 You can also create a circle, though only through the constructor.
 ```C#
-Plane2D Plane = new Plane2D(GraphicsType.ColoredPoints);
-Circle C = new Circle(10, 5, 3, 6, Plane, ConsoleColor.Magenta);
-Plane.Add(C);
+Scene2D Plane = new Scene2D(GraphicsType.ColoredPoints);
+Circle C = new Circle(10, 5, 3, 6, ConsoleColor.Magenta);
+Scene.Add(C);
 ```
 
 Result:
 
 ![image](https://user-images.githubusercontent.com/95927550/179638896-fb5fdfab-d83e-431f-ae4f-0448ca38ea05.png)
 
+## Additional goodies
+You can move any object in scene space using these methods:
+```C#
+GeometricalObject.SetY(double);
+GeometricalObject.SetX(double);
+```
+With these methods, you can create small animations, but if you want, you can make normal animations:
+
+Example:
+```C#
+Scene2D Scene = new Scene2D(GraphicsType.ColoredSymbols);
+Circle C = new Circle(10, 5, 6, 3, ConsoleColor.DarkGreen);
+Scene.Add(C);
+for (int i = 0; i < 60; i++)
+  {
+  try
+    {
+      C.SetY(i);
+      Thread.Sleep(500);
+    }
+    catch
+    {
+      break;
+    }
+}
+Console.ReadLine();
+```
+
+Result:
+
+![Result](https://user-images.githubusercontent.com/95927550/180067952-af7100cc-683f-4923-85c7-596c5201ee66.gif)
+
+In the next update, I will most likely add a convenient animation implementation.
 ## At the end:
 There are many possibilities with this library, but so far many of my ideas have not yet been implemented here.
 
